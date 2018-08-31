@@ -104,6 +104,8 @@ export function sortEvents(
     startSort || // sort by start Day first
     Math.max(durB, 1) - Math.max(durA, 1) || // events spanning multiple days go first
     !!get(evtB, allDayAccessor) - !!get(evtA, allDayAccessor) || // then allDay single day events
-    +get(evtA, startAccessor) - +get(evtB, startAccessor)
-  ) // then sort by start time
+    evtA.eventType.localeCompare(evtB.eventType) || // Custom sort by eventType
+    +get(evtA, startAccessor) - +get(evtB, startAccessor) || // Sort by start time
+    evtA.title.localeCompare(evtB.title) // Custom sort by title
+  )
 }
