@@ -827,15 +827,15 @@ class Calendar extends React.Component {
       
         {toolbar && (
           <div style={{ marginTop: '10px' }}>
-          <CalToolbar
-            date={current}
-            view={view}
-            views={names}
-            label={label}
-            onViewChange={this.handleViewChange}
-            onNavigate={this.handleNavigate}
-            messages={messages}
-          />
+            <CalToolbar
+              date={current}
+              view={view}
+              views={names}
+              label={label}
+              onViewChange={this.handleViewChange}
+              onNavigate={this.handleNavigate}
+              messages={messages}
+            />
           </div>
         )}
       </div>
