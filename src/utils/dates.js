@@ -25,7 +25,7 @@ let dates = {
     return dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
   },
 
-  lastVisibleDay(date, culture) {
+  lastVisibleDay(date, localizer) {
     // let endOfMonth = dates.endOf(date, 'month')
     let endOfMonth = dates.add(dates.endOf(date, 'month'), 1, 'week') // Show an extra week
 
