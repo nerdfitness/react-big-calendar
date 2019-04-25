@@ -1,22 +1,20 @@
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import React from 'react'
 import EventRowMixin from './EventRowMixin'
 
 class EventRow extends React.Component {
-  static propTypes = {
-    segments: PropTypes.array,
-    ...EventRowMixin.propTypes,
-  }
-  static defaultProps = {
-    ...EventRowMixin.defaultProps,
-  }
   render() {
-    let { segments, slots } = this.props
+    let {
+      segments,
+      slotMetrics: { slots },
+      className,
+    } = this.props
 
     let lastEnd = 1
 
     return (
-      <div className="rbc-row">
+      <div className={cn(className, 'rbc-row')}>
         {segments.reduce((row, { event, left, right, span }, li) => {
           let key = '_lvl_' + li
           let gap = left - lastEnd
@@ -34,6 +32,15 @@ class EventRow extends React.Component {
       </div>
     )
   }
+}
+
+EventRow.propTypes = {
+  segments: PropTypes.array,
+  ...EventRowMixin.propTypes,
+}
+
+EventRow.defaultProps = {
+  ...EventRowMixin.defaultProps,
 }
 
 export default EventRow

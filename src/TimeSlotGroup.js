@@ -2,35 +2,22 @@ import cn from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { elementType } from './utils/propTypes'
 import BackgroundWrapper from './BackgroundWrapper'
 
 export default class TimeSlotGroup extends Component {
-  static propTypes = {
-    renderSlot: PropTypes.func,
-    timeSlotWrapperComponent: elementType,
-    group: PropTypes.array.isRequired,
-    slotPropGetter: PropTypes.func,
-    resource: PropTypes.any,
-  }
-  static defaultProps = {
-    timeSlotWrapperComponent: BackgroundWrapper,
-  }
-
   render() {
     const {
       renderSlot,
       resource,
       group,
-      slotPropGetter,
-      timeSlotWrapperComponent: Wrapper,
+      getters,
+      components: { timeSlotWrapper: Wrapper = BackgroundWrapper } = {},
     } = this.props
 
     return (
       <div className="rbc-timeslot-group">
         {group.map((value, idx) => {
-          const slotProps = (slotPropGetter && slotPropGetter(value)) || {}
-
+          const slotProps = getters ? getters.slotProp(value, resource) : {}
           return (
             <Wrapper key={idx} value={value} resource={resource}>
               <div
@@ -45,4 +32,12 @@ export default class TimeSlotGroup extends Component {
       </div>
     )
   }
+}
+
+TimeSlotGroup.propTypes = {
+  renderSlot: PropTypes.func,
+  group: PropTypes.array.isRequired,
+  resource: PropTypes.any,
+  components: PropTypes.object,
+  getters: PropTypes.object,
 }
