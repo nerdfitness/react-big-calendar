@@ -916,19 +916,16 @@ class Calendar extends React.Component {
           onSelectSlot={this.handleSelectSlot}
           onShowMore={onShowMore}
         />
-      
         {toolbar && (
-          <div style={{ marginTop: '10px' }}>
-            <CalToolbar
-              date={current}
-              view={view}
-              views={names}
-              label={label}
-              onViewChange={this.handleViewChange}
-              onNavigate={this.handleNavigate}
-              messages={messages}
-            />
-          </div>
+          <CalToolbar
+            date={current}
+            view={view}
+            views={viewNames}
+            label={label}
+            onView={this.handleViewChange}
+            onNavigate={this.handleNavigate}
+            localizer={localizer}
+          />
         )}
       </div>
     )
