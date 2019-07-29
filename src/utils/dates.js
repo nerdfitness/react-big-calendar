@@ -42,8 +42,8 @@ export function firstVisibleDay(date, localizer) {
 }
 
 export function lastVisibleDay(date, localizer) {
-  let endOfMonth = dates.endOf(date, 'month')
-
+  //let endOfMonth = dates.endOf(date, 'month')
+  let endOfMonth = dates.add(dates.endOf(date, 'month'), 1, 'week') // Show an extra week
   return dates.endOf(endOfMonth, 'week', localizer.startOfWeek())
 }
 
