@@ -10,9 +10,9 @@ import globalize from 'globalize'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 
-import 'react-big-calendar/lib/less/styles.less'
-import './styles.less'
-import './prism.less'
+import 'react-big-calendar/lib/sass/styles.scss'
+import './styles.scss'
+import './prism.scss'
 import Card from './Card'
 import ExampleControlSlot from './ExampleControlSlot'
 import Basic from './demos/basic'
@@ -44,6 +44,7 @@ const EXAMPLES = {
   customView: 'Custom Calendar Views',
   resource: 'Resource Scheduling',
   dnd: 'Addon: Drag and drop',
+  dndresource: 'Resource Drag and drop',
   dndOutsideSource: 'Addon: Drag and drop (from outside calendar)',
 }
 

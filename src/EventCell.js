@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import cn from 'classnames'
-import dates from './utils/dates'
+import * as dates from './utils/dates'
 
 class EventCell extends React.Component {
   render() {
@@ -20,6 +20,8 @@ class EventCell extends React.Component {
       getters,
       children,
       components: { event: Event, eventWrapper: EventWrapper },
+      slotStart,
+      slotEnd,
       ...props
     } = this.props
 
@@ -39,9 +41,13 @@ class EventCell extends React.Component {
         {Event ? (
           <Event
             event={event}
+            continuesPrior={continuesPrior}
+            continuesAfter={continuesAfter}
             title={title}
             isAllDay={allDay}
             localizer={localizer}
+            slotStart={slotStart}
+            slotEnd={slotEnd}
           />
         ) : (
           title

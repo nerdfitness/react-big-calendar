@@ -44,6 +44,7 @@ const clickInterval = 250
 
 class Selection {
   constructor(node, { global = false, longPressThreshold = 250 } = {}) {
+    this.isDetached = false
     this.container = node
     this.globalMouse = !node || global
     this.longPressThreshold = longPressThreshold
@@ -55,6 +56,9 @@ class Selection {
     this._handleTerminatingEvent = this._handleTerminatingEvent.bind(this)
     this._keyListener = this._keyListener.bind(this)
     this._dropFromOutsideListener = this._dropFromOutsideListener.bind(this)
+    this._dragOverFromOutsideListener = this._dragOverFromOutsideListener.bind(
+      this
+    )
 
     // Fixes an iOS 10 bug where scrolling could not be prevented on the window.
     // https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
@@ -68,6 +72,10 @@ class Selection {
     this._onDropFromOutsideListener = addEventListener(
       'drop',
       this._dropFromOutsideListener
+    )
+    this._onDragOverfromOutisde = addEventListener(
+      'dragover',
+      this._dragOverFromOutsideListener
     )
     this._addInitialEventListener()
   }
@@ -95,6 +103,7 @@ class Selection {
   }
 
   teardown() {
+    this.isDetached = true
     this.listeners = Object.create(null)
     this._onTouchMoveWindowListener && this._onTouchMoveWindowListener.remove()
     this._onInitialEventListener && this._onInitialEventListener.remove()
@@ -103,6 +112,7 @@ class Selection {
     this._onMoveListener && this._onMoveListener.remove()
     this._onKeyUpListener && this._onKeyUpListener.remove()
     this._onKeyDownListener && this._onKeyDownListener.remove()
+    this._onDropFromOutsideListener && this._onDragOverfromOutisde.remove()
   }
 
   isSelected(node) {
@@ -205,7 +215,24 @@ class Selection {
     e.preventDefault()
   }
 
+  _dragOverFromOutsideListener(e) {
+    const { pageX, pageY, clientX, clientY } = getEventCoordinates(e)
+
+    this.emit('dragOverFromOutside', {
+      x: pageX,
+      y: pageY,
+      clientX: clientX,
+      clientY: clientY,
+    })
+
+    e.preventDefault()
+  }
+
   _handleInitialEvent(e) {
+    if (this.isDetached) {
+      return
+    }
+
     const { clientX, clientY, pageX, pageY } = getEventCoordinates(e)
     let node = this.container(),
       collides,
@@ -344,7 +371,7 @@ class Selection {
   }
 
   _handleMoveEvent(e) {
-    if (this._initialEventData === null) {
+    if (this._initialEventData === null || this.isDetached) {
       return
     }
 

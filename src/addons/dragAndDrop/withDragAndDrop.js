@@ -17,9 +17,6 @@ import { mergeComponents } from './common'
  *    import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
  *    export default withDragAndDrop(Calendar)
  * ```
- * (you can optionally pass any dnd backend as an optional second argument to `withDragAndDrop`.
- * It defaults to `react-dnd-html5-backend` which you should probably include in
- * your project if using this default).
  *
  * Set `resizable` to true in your calendar if you want events to be resizable.
  *
@@ -73,6 +70,9 @@ export default function withDragAndDrop(Calendar) {
       onEventResize: PropTypes.func,
       onDragStart: PropTypes.func,
       onDragOver: PropTypes.func,
+      onDropFromOutside: PropTypes.func,
+
+      dragFromOutsideItem: PropTypes.func,
 
       draggableAccessor: accessor,
       resizableAccessor: accessor,
@@ -80,6 +80,7 @@ export default function withDragAndDrop(Calendar) {
       selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
       resizable: PropTypes.bool,
       components: PropTypes.object,
+      elementProps: PropTypes.object,
       step: PropTypes.number,
     }
 
@@ -101,6 +102,7 @@ export default function withDragAndDrop(Calendar) {
         onEnd: PropTypes.func,
         onBeginAction: PropTypes.func,
         onDropFromOutside: PropTypes.fun,
+        dragFromOutsideItem: PropTypes.fun,
         draggableAccessor: accessor,
         resizableAccessor: accessor,
         dragAndDropAction: PropTypes.object,
@@ -128,6 +130,7 @@ export default function withDragAndDrop(Calendar) {
           onEnd: this.handleInteractionEnd,
           onBeginAction: this.handleBeginAction,
           onDropFromOutside: this.props.onDropFromOutside,
+          dragFromOutsideItem: this.props.dragFromOutsideItem,
           draggableAccessor: this.props.draggableAccessor,
           resizableAccessor: this.props.resizableAccessor,
           dragAndDropAction: this.state,
