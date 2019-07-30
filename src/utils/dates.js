@@ -39,13 +39,23 @@ export function firstVisibleDay(date, localizer) {
   let firstOfMonth = dates.startOf(date, 'month')
 
   //Make sure the previous two weeks are always visible
-  const start = dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
-  const minimumBack = localizer(date).diff(localizer(firstOfMonth), 'days')
 
-  if (minimumBack < 14) {
-    return localizer(start).subtract(14, 'days')
+  const start = dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
+
+  const diffInDays = dateDiffInDays(start, firstOfMonth)
+
+  if (diffInDays < 14) {
+    return dates.subtract(start, 14, 'day')
   }
   return start
+}
+
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())
+
+  return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24))
 }
 
 export function lastVisibleDay(date, localizer) {
