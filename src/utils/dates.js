@@ -41,8 +41,8 @@ export function firstVisibleDay(date, localizer) {
   const start = dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
   const diffInDays = dateDiffInDays(firstOfMonth, date)
 
-  if (diffInDays < 15) {
-    const day = dates.subtract(date, 14, 'day')
+  if (diffInDays < 8) {
+    const day = dates.subtract(date, 7, 'day')
     return dates.startOf(day, 'week', localizer.startOfWeek())
   }
 
