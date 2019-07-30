@@ -36,17 +36,16 @@ export function monthsInYear(year) {
 }
 
 export function firstVisibleDay(date, localizer) {
-  let firstOfMonth = dates.startOf(date, 'month')
-
-  //Make sure the previous two weeks are always visible
+  const firstOfMonth = dates.startOf(date, 'month') // Make sure the previous two weeks are always visible
 
   const start = dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
+  const diffInDays = dateDiffInDays(firstOfMonth, date)
 
-  const diffInDays = dateDiffInDays(start, firstOfMonth)
-
-  if (diffInDays < 14) {
-    return dates.subtract(start, 14, 'day')
+  if (diffInDays < 15) {
+    const day = dates.subtract(date, 14, 'day')
+    return dates.startOf(day, 'week', localizer.startOfWeek())
   }
+
   return start
 }
 
